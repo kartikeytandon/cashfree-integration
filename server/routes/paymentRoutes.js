@@ -8,4 +8,7 @@ router.post('/create-order', paymentController.createOrder);
 // Verify Payment
 router.post('/verify-payment', paymentController.verifyPayment);
 
+// webhook
+router.post('/webhook', paymentController.webhook);
+
 module.exports = router;
