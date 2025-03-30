@@ -1,20 +1,19 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors'); // Import CORS
+const bodyParser = require('body-parser');
 const paymentRoutes = require('./routes/paymentRoutes');
 
 dotenv.config();
 const app = express();
 
-// CORS middleware (allow frontend origin)
+app.use(bodyParser.json({ verify: (req, res, buf) => { req.rawBody = buf } })); // This is important to capture the raw body
+// CORS middleware (allow frontend origin) 
 app.use(cors({
     origin: 'http://localhost:5173', // Allow frontend origin (Vite's default port)
     methods: 'GET,POST',
     allowedHeaders: 'Content-Type,Authorization',
 }));
-
-// Middleware
-app.use(express.raw({ type: 'application/json', limit: '1mb', verify: (req, res, buf) => { req.rawBody = buf } }));
 
 // Routes
 app.use('/api/payment', paymentRoutes);
